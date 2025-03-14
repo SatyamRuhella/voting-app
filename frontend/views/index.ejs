@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for BJP or Congress</title>
+</head>
+<body>
+    <h1>Cast Your Vote</h1>
+    <form id="voteForm">
+        <label for="party">Choose Party:</label>
+        <select id="party" name="party">
+            <option value="BJP">BJP</option>
+            <option value="Congress">Congress</option>
+        </select>
+        <button type="submit">Cast Vote</button>
+    </form>
+
+    <h2><a href="/results">View Results</a></h2>
+
+    <script>
+        document.getElementById('voteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const party = document.getElementById('party').value;
+
+            fetch('/castVote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ party: party })
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => alert('Error: ' + error));
+        });
+    </script>
+</body>
+</html>
+
